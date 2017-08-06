@@ -10,16 +10,38 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
+    @IBOutlet weak var refreshButton: UIButton!
+    @IBOutlet weak var appearentTemperatureLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var pressureLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var locationLabel: UILabel!
+    
+
+    
+@IBAction func refreshButtonTaped(_ sender: UIButton) {
+    }
+
+
+override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+//    uses defauls structure initializer
+    let icon = WeatherIconManager.Rain.image
+    let currentWeather = CurrentWeather(temperature: 10.0, appearentTemperature: 5.0, humidity: 30, pressure: 1000, icon: icon)
+    
+    updateUIWithCurrentWeather(currentWeather: currentWeather)
+    
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func updateUIWithCurrentWeather(currentWeather: CurrentWeather){
+    
+        self.imageView.image = currentWeather.icon
+        self.pressureLabel.text = currentWeather.pressureString
+        self.appearentTemperatureLabel.text = currentWeather.appearentTemperatureString
+         self.temperatureLabel.text = currentWeather.temperatureString
+         self.humidityLabel.text = currentWeather.humidityString
     }
-
-
 }
 
