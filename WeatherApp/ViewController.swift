@@ -30,8 +30,21 @@ override func viewDidLoad() {
 //    uses defauls structure initializer
     let icon = WeatherIconManager.Rain.image
     let currentWeather = CurrentWeather(temperature: 10.0, appearentTemperature: 5.0, humidity: 30, pressure: 1000, icon: icon)
+  updateUIWithCurrentWeather(currentWeather: currentWeather)
+
+//    let urlString = "https://api.darksky.net/forecast/7d791308b9269bdfc5d5b62a4f5df95f/37.8267,-122.4233"
+//    let baseURL = URL(string: "https://api.darksky.net/forecast/7d791308b9269bdfc5d5b62a4f5df95f/")
+//    let fullURL = URL(string: "37.8267,-122.4233", relativeTo: baseURL)
+//    
+//    let sessionConfiguration = URLSessionConfiguration.default
+//    let session = URLSession(configuration: sessionConfiguration)
+//    let request = URLRequest(url: fullURL!)
+//    let dataTask = session.dataTask(with: fullURL!){(data,responce, error) in
+//    
+//    }
+//    dataTask.resume()
     
-    updateUIWithCurrentWeather(currentWeather: currentWeather)
+    
     
     }
 
