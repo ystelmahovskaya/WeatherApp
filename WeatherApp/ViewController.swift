@@ -24,13 +24,16 @@ class ViewController: UIViewController {
     }
 
 
+    lazy var weatherManager = APIWeatherManager(apiKey: "7d791308b9269bdfc5d5b62a4f5df95f")
+    let coordinates = Coordinates(latitude: 57.871521, longitude: 11.925186 )
+    
 override func viewDidLoad() {
         super.viewDidLoad()
     
 //    uses defauls structure initializer
-    let icon = WeatherIconManager.Rain.image
-    let currentWeather = CurrentWeather(temperature: 10.0, appearentTemperature: 5.0, humidity: 30, pressure: 1000, icon: icon)
-  updateUIWithCurrentWeather(currentWeather: currentWeather)
+//    let icon = WeatherIconManager.Rain.image
+//    let currentWeather = CurrentWeather(temperature: 10.0, appearentTemperature: 5.0, humidity: 30, pressure: 1000, icon: icon)
+
 
 //    let urlString = "https://api.darksky.net/forecast/7d791308b9269bdfc5d5b62a4f5df95f/37.8267,-122.4233"
 //    let baseURL = URL(string: "https://api.darksky.net/forecast/7d791308b9269bdfc5d5b62a4f5df95f/")
@@ -44,6 +47,17 @@ override func viewDidLoad() {
 //    }
 //    dataTask.resume()
     
+    weatherManager.fetchCurrentWeatherWith(coordinates: coordinates) { (result) in
+        switch result{
+        case .Success(let currentWeather):self.updateUIWithCurrentWeather(currentWeather: currentWeather)
+        case .Failure(let error as NSError):
+            let ac = UIAlertController(title: "Unable to get data", message: "\(error.localizedDescription)", preferredStyle: .alert)
+            let okaction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            ac.addAction(okaction)
+           self.present(ac, animated: true, completion: nil)
+        default: break
+        }
+    }
     
     
     }
