@@ -40,12 +40,12 @@ extension CurrentWeather{
         return "\(Int(pressure))"+"mm"
     }
     var humidityString: String{
-        return "\(Int(humidity))"+"%"
+        return "\((Double(humidity)*100).rounded())"+"%"
     }
     var temperatureString: String{
-        return "\(Int(temperature))"+"˚C"
+        return "\(((Double(temperature)-32)/1.8).rounded())"+"˚C"
     }
     var appearentTemperatureString: String{
-        return "\(Int(appearentTemperature))"+"˚C"
+        return "\(((Double(appearentTemperature)-32)/1.8).rounded())"+"˚C"
     }
 }

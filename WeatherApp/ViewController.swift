@@ -21,10 +21,23 @@ class ViewController: UIViewController {
 
     
 @IBAction func refreshButtonTaped(_ sender: UIButton) {
+    toggleActivityIndicator(on: true)
+    getCurrentWeatherData()
     }
 
+    func toggleActivityIndicator (on: Bool) {
+    refreshButton.isHidden = on
+        
+        if on {
+        activityIndicator.startAnimating()
+        }
+        else {
+        activityIndicator.stopAnimating()
+        }
+    }
 
     lazy var weatherManager = APIWeatherManager(apiKey: "7d791308b9269bdfc5d5b62a4f5df95f")
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     let coordinates = Coordinates(latitude: 57.871521, longitude: 11.925186 )
     
 override func viewDidLoad() {
@@ -46,21 +59,13 @@ override func viewDidLoad() {
 //    
 //    }
 //    dataTask.resume()
+    getCurrentWeatherData()
     
-    weatherManager.fetchCurrentWeatherWith(coordinates: coordinates) { (result) in
-        switch result{
-        case .Success(let currentWeather):self.updateUIWithCurrentWeather(currentWeather: currentWeather)
-        case .Failure(let error as NSError):
-            let ac = UIAlertController(title: "Unable to get data", message: "\(error.localizedDescription)", preferredStyle: .alert)
-            let okaction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            ac.addAction(okaction)
-           self.present(ac, animated: true, completion: nil)
-        default: break
-        }
-    }
     
     
     }
+    
+ 
 
     func updateUIWithCurrentWeather(currentWeather: CurrentWeather){
     
@@ -69,6 +74,21 @@ override func viewDidLoad() {
         self.appearentTemperatureLabel.text = currentWeather.appearentTemperatureString
          self.temperatureLabel.text = currentWeather.temperatureString
          self.humidityLabel.text = currentWeather.humidityString
+    }
+    
+    func getCurrentWeatherData(){
+        weatherManager.fetchCurrentWeatherWith(coordinates: coordinates) { (result) in
+            self.toggleActivityIndicator(on: false)
+            switch result{
+            case .Success(let currentWeather):self.updateUIWithCurrentWeather(currentWeather: currentWeather)
+            case .Failure(let error as NSError):
+                let ac = UIAlertController(title: "Unable to get data", message: "\(error.localizedDescription)", preferredStyle: .alert)
+                let okaction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                ac.addAction(okaction)
+                self.present(ac, animated: true, completion: nil)
+            default: break
+            }
+        }
     }
 }
 
